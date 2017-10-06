@@ -5,6 +5,9 @@ project.ext {
     compileSdkVersion = 26
     buildToolsVersion = "26.0.1"
 
+    supportLibVersion = "26.1.0"
+    architectureVersion = "1.0.0-beta1"
+
     junitVersion = "4.12"
     mockitoVersion = "1.5.0"
     espressoVersion = "3.0.1"

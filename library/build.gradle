@@ -32,6 +32,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // Android Architecture Components
+    provided "com.android.support:support-v4:$supportLibVersion"
+    api ("android.arch.lifecycle:extensions:$architectureVersion") {
+        exclude group: "com.android.support"
+    }
+    //annotationProcessor "android.arch.lifecycle:compiler:$architectureVersion"
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
