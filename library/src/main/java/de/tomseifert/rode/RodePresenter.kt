@@ -10,9 +10,14 @@ package de.tomseifert.rode
 abstract class RodePresenter<View> {
 
     /**
-     * The *view* this *presenter* instructs.
+     * The *view* this *presenter* instructs. Might be *null* if currently no *view* is attached.
      */
     protected var view: View? = null
+    /**
+     * The [view] if it is not *null*. Otherwise throws a [NullPointerException]. Shortcut to avoid *null* checks.
+     */
+    protected val viewOrThrow: View
+        get() = view ?: throw NullPointerException()
 
     /**
      * Called by a [RodeLifecycleObserver] when it creates this instance.
