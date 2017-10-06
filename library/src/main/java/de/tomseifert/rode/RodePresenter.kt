@@ -39,6 +39,7 @@ abstract class RodePresenter<View> {
      */
     internal fun attachView(view: View) {
         detachView()
+        this.view = view
         onViewAttached(view)
     }
 
