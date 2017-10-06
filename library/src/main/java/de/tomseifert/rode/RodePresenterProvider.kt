@@ -4,9 +4,9 @@ import android.arch.lifecycle.LifecycleOwner
 
 /**
  * Interface that needs to be implemented by a [LifecycleOwner] (typically an *Activity* or a *Fragment*)
- * that needs a *createPresenter*.
+ * that needs a *presenter*.
  *
- * @param P The type of a *createPresenter* extending [RodePresenter].
+ * @param P The type of a *presenter* extending [RodePresenter].
  * @param V The type of the *view* that *P* expects.
  */
 interface RodePresenterProvider<out P : RodePresenter<V>, V> : LifecycleOwner {

@@ -12,13 +12,13 @@ import android.arch.lifecycle.OnLifecycleEvent
  * A [LifecycleObserver] that keeps a reference to a [RodePresenter] instance.
  *
  * * Upon the lifecycle event [ON_START] the [LifecycleOwner] calling this [LifecycleObserver] will be attached
- * to the *createPresenter* instance as its *view*.
+ * to the *presenter* instance as its *view*.
  * * Upon the lifecycle event [ON_STOP] the [LifecycleOwner] calling this [LifecycleObserver] will be detached
- * from the *createPresenter* instance.
+ * from the *presenter* instance.
  * * Upon the lifecycle event [ON_DESTROY] this [LifecycleObserver] will unregister as an observer from the
  * calling [LifecycleOwner] to prevent any leaks.
  *
- * @param P The type of a *createPresenter* extending [RodePresenter].
+ * @param P The type of a *presenter* extending [RodePresenter].
  * @param V The type of the *view* that *P* expects.
  * @property presenterProvider Will be called to create an instance of *P* upon creating this object.
  */
@@ -28,9 +28,9 @@ internal class RodeLifecycleObserver<out P : RodePresenter<V>, V>(
 ) : LifecycleObserver {
 
     /**
-     * A reference to a stateful *createPresenter* that only gets created once, when this [LifecycleObserver] is created.
+     * A reference to a stateful *presenter* that only gets created once, when this [LifecycleObserver] is created.
      *
-     * Upon creating the *createPresenter*, its [created()][RodePresenter.created] method gets called.
+     * Upon creating the *presenter*, its [created()][RodePresenter.created] method gets called.
      */
     val presenter: P = presenterProvider.createPresenter().apply { created() }
 
