@@ -1,11 +1,11 @@
-package de.memorian.sample
+package de.tomseifert.sample
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import de.memorian.mvvmp.RodePresenterProvider
-import de.memorian.mvvmp.RodeViewModel
+import de.tomseifert.rode.RodePresenterProvider
+import de.tomseifert.rode.RodeViewModel
 
 class MainActivity : AppCompatActivity(),
         HelloWordView, RodePresenterProvider<HelloWorldPresenter, HelloWordView> {

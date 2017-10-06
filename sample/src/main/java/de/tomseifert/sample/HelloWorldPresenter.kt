@@ -1,7 +1,7 @@
-package de.memorian.sample
+package de.tomseifert.sample
 
 import android.util.Log
-import de.memorian.mvvmp.RodePresenter
+import de.tomseifert.rode.RodePresenter
 
 /**
  * An implementation of a *presenter* from the MVP architecture, extending Rode's base presenter.

@@ -1,4 +1,4 @@
-package de.memorian.mvvmp
+package de.tomseifert.rode
 
 /**
  * Base class for *presenters* of the MVP architecture.

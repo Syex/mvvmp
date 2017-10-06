@@ -1,4 +1,4 @@
-package de.memorian.mvvmp
+package de.tomseifert.rode
 
 import android.arch.lifecycle.Lifecycle.Event.ON_DESTROY
 import android.arch.lifecycle.Lifecycle.Event.ON_START

@@ -1,7 +1,4 @@
-package de.memorian.template
-
-import org.junit.*
-import org.junit.Assert.*
+package de.tomseifert.sample
 
 /**
  * Example local unit test, which will execute on the development machine (host).

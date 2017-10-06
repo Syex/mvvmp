@@ -1,4 +1,10 @@
-package de.memorian.sample
+package de.tomseifert.template
+
+import android.support.test.InstrumentationRegistry
+import android.support.test.runner.AndroidJUnit4
+import org.junit.*
+import org.junit.Assert.*
+import org.junit.runner.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -11,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("de.memorian.sample", appContext.packageName)
+        assertEquals("de.memorian.template", appContext.packageName)
     }
 }
