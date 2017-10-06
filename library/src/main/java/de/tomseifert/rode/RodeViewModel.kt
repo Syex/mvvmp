@@ -13,7 +13,7 @@ class RodeViewModel : ViewModel() {
      * The *observer* that observes the [Lifecycle][android.arch.lifecycle.Lifecycle] of the component this
      * [ViewModel] belongs to.
      */
-    private var lifecycleObserver: RodeLifecycleObserver<*, *>? = null
+    internal var lifecycleObserver: RodeLifecycleObserver<*, *>? = null
 
     /**
      * Provides a *createPresenter* of type *P*.
@@ -30,8 +30,8 @@ class RodeViewModel : ViewModel() {
     fun <P : RodePresenter<V>, V> providePresenter(presenterProvider: RodePresenterProvider<P, V>): P {
         if (lifecycleObserver == null) {
             lifecycleObserver = RodeLifecycleObserver(presenterProvider)
-            presenterProvider.lifecycle.addObserver(lifecycleObserver)
         }
+        presenterProvider.lifecycle.addObserver(lifecycleObserver)
 
         return (lifecycleObserver as RodeLifecycleObserver<P, V>).presenter
     }

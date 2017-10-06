@@ -3,7 +3,7 @@ package de.tomseifert.rode
 /**
  * A simple presenter extending the [RodePresenter].
  */
-class MockRodePresenter : RodePresenter<MockView>() {
+internal class MockRodePresenter : RodePresenter<MockView>() {
 
     var onCreateCalled = false
     var onDestroyCalled = false
@@ -39,4 +39,9 @@ class MockRodePresenter : RodePresenter<MockView>() {
     }
 }
 
-interface MockView
+internal interface MockView
+
+/**
+ * Simulates an Activity or Fragment that implements both, RodePresenterProvider and MockView
+ */
+internal abstract class TestView : RodePresenterProvider<MockRodePresenter, MockView>, MockView
