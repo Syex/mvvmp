@@ -1,7 +1,7 @@
 package de.tomseifert.sample
 
 import android.util.Log
-import de.tomseifert.rode.RodePresenter
+import de.syex.rode.RodePresenter
 
 /**
  * An implementation of a *presenter* from the MVP architecture, extending Rode's base presenter.
