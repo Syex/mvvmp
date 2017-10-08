@@ -1,0 +1,137 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = '0.0.6'
+group = 'de.syex'
+def siteUrl = 'https://github.com/Syex/Rode'
+def gitUrl = 'https://github.com/Syex/Rode.git'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resConfigs 'de', 'en'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    buildToolsVersion '26.0.2'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Android Architecture Components
+    compileOnly "com.android.support:support-v4:$supportLibVersion"
+    api ("android.arch.lifecycle:extensions:$architectureVersion") {
+        exclude group: "com.android.support"
+    }
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    // Unit tests
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitoVersion"
+
+    // Android Testing Support Library's runner and rules
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$runnerVersion"
+
+    // Espresso UI Testing
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'Rode'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The MIT License'
+                    }
+                }
+                developers {
+                    developer {
+                        name "Tom Seifert"
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+// Workaround for generating KDoc
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    user = properties.getProperty('BINTRAY_USER')
+    key = properties.getProperty('BINTRAY_KEY')
+
+    configurations = ['archives']
+    publish = true
+    pkg {
+        repo = 'Rode'
+        name = 'Rode'
+        desc = 'An Android MVP library'
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['MIT']
+        labels = ['kotlin', 'android', 'library']
+        publicDownloadNumbers = true
+    }
+}

@@ -1,11 +1,13 @@
-package de.tomseifert.sample
+package de.syex.sample
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import de.tomseifert.rode.RodePresenterProvider
-import de.tomseifert.rode.RodeViewModel
+import de.syex.rode.RodePresenterProvider
+import de.syex.rode.RodeViewModel
+import de.tomseifert.sample.HelloWordView
+import de.tomseifert.sample.HelloWorldPresenter
 
 class MainActivity : AppCompatActivity(),
         HelloWordView, RodePresenterProvider<HelloWorldPresenter, HelloWordView> {
