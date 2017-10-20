@@ -1,5 +1,6 @@
 package de.syex.rode
 
+
 /**
  * Base class for *presenters* of the MVP architecture.
  *
@@ -9,15 +10,13 @@ package de.syex.rode
  */
 abstract class RodePresenter<View> {
 
+    internal var viewCommandExecutor: ViewCommandExecutor = UiThreadViewCommandExecutor()
+
+    private val viewCommandStore = ViewCommandStore<View>()
     /**
      * The *view* this *presenter* instructs. Might be *null* if currently no *view* is attached.
      */
     protected var view: View? = null
-    /**
-     * The [view] if it is not *null*. Otherwise throws a [NullPointerException]. Shortcut to avoid *null* checks.
-     */
-    protected val viewOrThrow: View
-        get() = view ?: throw NullPointerException()
 
     /**
      * Called by a [RodeLifecycleObserver] when it creates this instance.
@@ -31,6 +30,7 @@ abstract class RodePresenter<View> {
      */
     internal fun destroy() {
         detachView()
+        viewCommandStore.dispose()
         onDestroy()
     }
 
@@ -40,6 +40,7 @@ abstract class RodePresenter<View> {
     internal fun attachView(view: View) {
         detachView()
         this.view = view
+        sendQueuedViewCommands(view)
         onViewAttached(view)
     }
 
@@ -85,5 +86,60 @@ abstract class RodePresenter<View> {
      */
     protected open fun onDestroy() {
 
+    }
+
+    /**
+     * Sends *viewCommand* to the *view*, once.
+     *
+     * If a *view* is currently attached it will be executed immediately
+     * on the UI thread, otherwise it will be executed as soon as a *view* gets attached.
+     */
+    protected fun sendToViewOnce(viewCommand: ViewCommand<View>) {
+        if (view != null) {
+            viewCommandExecutor.execute(viewCommand, view!!)
+        } else {
+            viewCommandStore.enqueue(ONCE_TAG, viewCommand)
+        }
+    }
+
+    /**
+     * Sends *viewCommand* to the *view* and remembers the command for the lifecycle of this *presenter*.
+     *
+     * If a *view* is currently attached it will be executed immediately
+     * on the UI thread, otherwise it will be executed as soon as a *view* gets attached.
+     *
+     * If the *view* detaches and a new *view* attaches again, the *viewCommand* will also be executed again.
+     * By providing the same [tag][ViewCommand.tag] you can group [ViewCommandStore][ViewCommand] to be exclusive.
+     *
+     * For example, imagine you have two methods *setError()* and *clearError()*. By setting the same
+     * [tag][ViewCommand.tag] to each *ViewCommand*, the *clearError()* *ViewCommand* will erase the first sent
+     * *setError()* *ViewCommand* in the history. None of these both commands will be sent to the new view as a
+     * result.
+     */
+    protected fun sendToView(tag: String = NO_TAG, viewCommand: ViewCommand<View>) {
+        if (tag == ONCE_TAG) {
+            sendToViewOnce(viewCommand)
+            return
+        }
+
+        val viewCommandWrapper = viewCommandStore.enqueue(tag, viewCommand)
+
+        if (view != null) {
+            viewCommandExecutor.execute(viewCommand, view!!)
+            viewCommandWrapper?.let {
+                viewCommandStore.notifyViewCommandsSent(listOf(it), view!!)
+            }
+        }
+    }
+
+    private fun sendQueuedViewCommands(view: View) {
+        val queuedCommands = viewCommandStore.queuedCommands(view)
+        val sentCommands = mutableListOf<ViewCommandWrapper<View>>()
+        while (queuedCommands.isNotEmpty()) {
+            val wrapper = queuedCommands.poll()
+            sendToViewOnce(wrapper.command)
+            sentCommands.add(wrapper)
+        }
+        viewCommandStore.notifyViewCommandsSent(sentCommands, view)
     }
 }

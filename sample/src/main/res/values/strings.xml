@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Sample Application</string>
+    <string name="first_hint">First hint</string>
+    <string name="second_hint">Second hint</string>
+    <string name="toggle_first_hint">Toggle first error</string>
+    <string name="toggle_second_hint">Toggle second error</string>
 </resources>
