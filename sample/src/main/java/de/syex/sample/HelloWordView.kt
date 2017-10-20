@@ -1,4 +1,4 @@
-package de.tomseifert.sample
+package de.syex.sample
 
 
 /**
@@ -7,7 +7,15 @@ package de.tomseifert.sample
 interface HelloWordView {
 
     /**
-     * Shows a *Toast* with the given *text*.
+     * Sets the given *text* to the hello world *TextView*.
      */
-    fun showHelloWord(text: String)
+    fun setHelloWorldText(text: String)
+
+    fun showFirstError()
+
+    fun clearFirstError()
+
+    fun showSecondError()
+
+    fun clearSecondError()
 }

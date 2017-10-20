@@ -3,7 +3,7 @@ project.ext {
     minSdkVersion = 21
     targetSdkVersion = 26
     compileSdkVersion = 26
-    buildToolsVersion = "26.0.1"
+    buildToolsVersion = "26.0.2"
 
     supportLibVersion = "26.1.0"
     architectureVersion = "1.0.0-beta1"
