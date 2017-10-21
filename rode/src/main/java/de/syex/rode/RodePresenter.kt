@@ -10,8 +10,21 @@ package de.syex.rode
  */
 abstract class RodePresenter<View> {
 
+    /**
+     * Executor that executes any [ViewCommands][ViewCommand]. By default all will be executed
+     * by a [UiThreadViewCommandExecutor].
+     */
     internal var viewCommandExecutor: ViewCommandExecutor = UiThreadViewCommandExecutor()
 
+    /**
+     * Stores [ViewCommands][ViewCommand] that were sent to the *view* or will be sent as soon as a *view* attaches.
+     *
+     * When a different *view* attaches all *view commands* that were sent to the previous *view* via [sendToView]
+     * will be resent to the new *view*.
+     *
+     * @see sendToView
+     * @see sendToViewOnce
+     */
     private val viewCommandStore = ViewCommandStore<View>()
     /**
      * The *view* this *presenter* instructs. Might be *null* if currently no *view* is attached.
@@ -89,10 +102,12 @@ abstract class RodePresenter<View> {
     }
 
     /**
-     * Sends *viewCommand* to the *view*, once.
+     * Sends *viewCommand* to the *view*, once, and doesn't remember it.
      *
      * If a *view* is currently attached it will be executed immediately
      * on the UI thread, otherwise it will be executed as soon as a *view* gets attached.
+     *
+     * @see sendToView
      */
     protected fun sendToViewOnce(viewCommand: ViewCommand<View>) {
         if (view != null) {
@@ -115,6 +130,8 @@ abstract class RodePresenter<View> {
      * [tag][ViewCommand.tag] to each *ViewCommand*, the *clearError()* *ViewCommand* will erase the first sent
      * *setError()* *ViewCommand* in the history. None of these both commands will be sent to the new view as a
      * result.
+     *
+     * @see sendToViewOnce
      */
     protected fun sendToView(tag: String = NO_TAG, viewCommand: ViewCommand<View>) {
         if (tag == ONCE_TAG) {
@@ -143,6 +160,12 @@ abstract class RodePresenter<View> {
         viewCommandStore.notifyViewCommandsSent(sentCommands, view)
     }
 
+    /**
+     * Prepares this *presenter* for units tests.
+     *
+     * All commands sent to the *view* via [sendToView] or [sendToViewOnce] will be executed with a
+     * [TestViewCommandExecutor].
+     */
     fun test(): RodePresenter<View> {
         viewCommandExecutor = TestViewCommandExecutor()
         return this

@@ -35,6 +35,14 @@ internal class MockRodePresenter : RodePresenter<MockView>() {
     override fun onViewDetached() {
         onViewDetachedCalled = true
     }
+
+    fun sendToViewOnceMock(viewCommand: ViewCommand<MockView>) {
+        super.sendToViewOnce(viewCommand)
+    }
+
+    fun sendToViewMock(tag: String = NO_TAG, viewCommand: ViewCommand<MockView>) {
+        super.sendToView(tag, viewCommand)
+    }
 }
 
 internal interface MockView

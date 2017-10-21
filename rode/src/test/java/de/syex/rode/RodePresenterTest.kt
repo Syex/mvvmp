@@ -12,7 +12,7 @@ import org.junit.runners.*
 @RunWith(JUnit4::class)
 internal class RodePresenterTest {
 
-    val presenter = MockRodePresenter()
+    val presenter = MockRodePresenter().test() as MockRodePresenter
     val view = mock<MockView>()
 
     @Before
@@ -92,5 +92,51 @@ internal class RodePresenterTest {
 
         assertTrue(presenter.onViewDetachedCalled)
         assertTrue(presenter.onViewAttachedCalled)
+    }
+
+    @Test
+    fun `sendToViewOnce() send command to view if attached`() {
+        // whenever we send a command while the view is attached
+        presenter.attachView(view)
+        val viewCommand: ViewCommand<MockView> = mock()
+        presenter.sendToViewOnceMock(viewCommand)
+
+        // verify the command got executed
+        verify(viewCommand).execute(view)
+    }
+
+    @Test
+    fun `sendToViewOnce() while view is detached sends it when view attaches`() {
+        // whenever we send a command while the view is detached
+        val viewCommand: ViewCommand<MockView> = mock()
+        presenter.sendToViewOnceMock(viewCommand)
+
+        // and a view attaches
+        presenter.attachView(view)
+        // verify the command got executed
+        verify(viewCommand).execute(view)
+    }
+
+    @Test
+    fun `sendToView() send command to view if attached`() {
+        // whenever we send a command while the view is attached
+        presenter.attachView(view)
+        val viewCommand: ViewCommand<MockView> = mock()
+        presenter.sendToViewMock(viewCommand = viewCommand)
+
+        // verify the command got executed
+        verify(viewCommand).execute(view)
+    }
+
+    @Test
+    fun `sendToView() while view is detached sends it when view attaches`() {
+        // whenever we send a command while the view is detached
+        val viewCommand: ViewCommand<MockView> = mock()
+        presenter.sendToViewMock(viewCommand = viewCommand)
+
+        // and a view attaches
+        presenter.attachView(view)
+        // verify the command got executed
+        verify(viewCommand).execute(view)
     }
 }
