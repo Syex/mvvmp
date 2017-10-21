@@ -142,4 +142,9 @@ abstract class RodePresenter<View> {
         }
         viewCommandStore.notifyViewCommandsSent(sentCommands, view)
     }
+
+    fun test(): RodePresenter<View> {
+        viewCommandExecutor = TestViewCommandExecutor()
+        return this
+    }
 }

@@ -20,8 +20,6 @@ internal class MockRodePresenter : RodePresenter<MockView>() {
 
     fun getView() = view
 
-    fun getViewOrThrow() = viewOrThrow
-
     override fun onCreate() {
         onCreateCalled = true
     }

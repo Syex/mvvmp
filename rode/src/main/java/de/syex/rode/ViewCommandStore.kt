@@ -135,9 +135,17 @@ interface ViewCommandExecutor {
 
 internal class UiThreadViewCommandExecutor : ViewCommandExecutor {
 
-    private val handler = Handler(Looper.getMainLooper())
+    private val handler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun <View> execute(viewCommand: ViewCommand<View>, view: View) {
         handler.post { viewCommand.execute(view) }
     }
+}
+
+internal class TestViewCommandExecutor : ViewCommandExecutor {
+
+    override fun <View> execute(viewCommand: ViewCommand<View>, view: View) {
+        viewCommand.execute(view)
+    }
+
 }

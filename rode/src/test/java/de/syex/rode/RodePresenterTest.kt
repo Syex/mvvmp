@@ -1,11 +1,10 @@
 package de.syex.rode
 
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.*
+import org.junit.*
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.junit.runner.*
+import org.junit.runners.*
 
 /**
  *
@@ -54,11 +53,6 @@ internal class RodePresenterTest {
         assertTrue(presenter.onViewDetachedCalled)
     }
 
-    @Test(expected = NullPointerException::class)
-    fun `viewOrThrow throws NPE`() {
-        presenter.getViewOrThrow()
-    }
-
     @Test
     fun `view being attached`() {
         // assert view is null at the beginning
@@ -69,7 +63,6 @@ internal class RodePresenterTest {
 
         // assert the view is set now
         assertNotNull(presenter.getView())
-        assertNotNull(presenter.getViewOrThrow())
 
         // and appropriate methods have been called
         assertTrue(presenter.onViewAttachedCalled)
