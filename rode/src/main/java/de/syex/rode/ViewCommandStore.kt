@@ -1,7 +1,5 @@
 package de.syex.rode
 
-import android.os.Handler
-import android.os.Looper
 import java.util.concurrent.LinkedBlockingQueue
 
 internal const val NO_TAG = "default_tag"
@@ -128,24 +126,3 @@ class ViewCommandWrapper<View>(val tag: String = ONCE_TAG, val command: ViewComm
     var sentToView: String? = null
 }
 
-interface ViewCommandExecutor {
-
-    fun <View> execute(viewCommand: ViewCommand<View>, view: View)
-}
-
-internal class UiThreadViewCommandExecutor : ViewCommandExecutor {
-
-    private val handler by lazy { Handler(Looper.getMainLooper()) }
-
-    override fun <View> execute(viewCommand: ViewCommand<View>, view: View) {
-        handler.post { viewCommand.execute(view) }
-    }
-}
-
-internal class TestViewCommandExecutor : ViewCommandExecutor {
-
-    override fun <View> execute(viewCommand: ViewCommand<View>, view: View) {
-        viewCommand.execute(view)
-    }
-
-}
