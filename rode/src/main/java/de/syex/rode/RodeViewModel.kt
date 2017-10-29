@@ -31,7 +31,7 @@ class RodeViewModel : ViewModel() {
         if (lifecycleObserver == null) {
             lifecycleObserver = RodeLifecycleObserver(presenterProvider)
         }
-        presenterProvider.lifecycle.addObserver(lifecycleObserver)
+        presenterProvider.lifecycle.addObserver(lifecycleObserver!!)
 
         return (lifecycleObserver as RodeLifecycleObserver<P, V>).presenter
     }

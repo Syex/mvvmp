@@ -50,17 +50,6 @@ dependencies {
     // Unit tests
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.nhaarman:mockito-kotlin:$mockitoVersion"
-
-    // Android Testing Support Library's runner and rules
-    androidTestImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
-    androidTestImplementation "com.android.support.test:rules:$runnerVersion"
-
-    // Espresso UI Testing
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
 }
 
 install {

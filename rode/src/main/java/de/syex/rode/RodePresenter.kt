@@ -1,5 +1,7 @@
 package de.syex.rode
 
+import de.syex.rode.test.RodeTestUtils
+
 
 /**
  * Base class for *presenters* of the MVP architecture.
@@ -133,7 +135,7 @@ abstract class RodePresenter<View> {
      *
      * @see sendToViewOnce
      */
-    protected fun sendToView(tag: String = NO_TAG, viewCommand: ViewCommand<View>) {
+    protected fun sendToView(viewCommand: ViewCommand<View>, tag: String = NO_TAG) {
         if (tag == ONCE_TAG) {
             sendToViewOnce(viewCommand)
             return
@@ -166,8 +168,17 @@ abstract class RodePresenter<View> {
      * All commands sent to the *view* via [sendToView] or [sendToViewOnce] will be executed with a
      * [TestViewCommandExecutor].
      */
-    fun test(): RodePresenter<View> {
+    fun testO(): RodePresenter<View> {
         viewCommandExecutor = TestViewCommandExecutor()
         return this
     }
+
+    /**
+     * Prepares this *presenter* for units tests.
+     *
+     * All commands sent to the *view* via [sendToView] or [sendToViewOnce] will be executed with a
+     * [TestViewCommandExecutor].
+     */
+    fun test(view: View) = RodeTestUtils(this, view)
+
 }

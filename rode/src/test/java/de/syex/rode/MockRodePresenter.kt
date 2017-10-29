@@ -41,7 +41,7 @@ internal class MockRodePresenter : RodePresenter<MockView>() {
     }
 
     fun sendToViewMock(tag: String = NO_TAG, viewCommand: ViewCommand<MockView>) {
-        super.sendToView(tag, viewCommand)
+        super.sendToView(viewCommand, tag)
     }
 }
 

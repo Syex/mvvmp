@@ -1,10 +1,12 @@
 package de.syex.rode
 
-import com.nhaarman.mockito_kotlin.*
-import org.junit.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.*
-import org.junit.runner.*
-import org.junit.runners.*
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  *
@@ -12,8 +14,9 @@ import org.junit.runners.*
 @RunWith(JUnit4::class)
 internal class RodePresenterTest {
 
-    val presenter = MockRodePresenter().test() as MockRodePresenter
+    val presenter = MockRodePresenter()
     val view = mock<MockView>()
+    val testUtils = presenter.test(view)
 
     @Before
     fun setUp() {
