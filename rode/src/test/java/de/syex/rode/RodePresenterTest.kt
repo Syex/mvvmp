@@ -142,4 +142,11 @@ internal class RodePresenterTest {
         // verify the command got executed
         verify(viewCommand).execute(view)
     }
+
+    @Test
+    fun `unwrappedView returns view`() {
+        presenter.attachView(view)
+
+        assertEquals(view, presenter.unwrappedViewMock())
+    }
 }

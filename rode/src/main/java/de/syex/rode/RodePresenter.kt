@@ -104,6 +104,14 @@ abstract class RodePresenter<View> {
     }
 
     /**
+     * Convenience function to get [view] as a non *null* object.
+     *
+     * Only use this if you're sure the *view* is not *null*, otherwise it will throw a
+     * [NullPointerException].
+     */
+    protected fun unwrappedView() = view!!
+
+    /**
      * Sends *viewCommand* to the *view*, once, and doesn't remember it.
      *
      * If a *view* is currently attached it will be executed immediately

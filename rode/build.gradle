@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = '0.2.0'
+version = '0.2.1'
 group = 'de.syex'
 def siteUrl = 'https://github.com/Syex/Rode'
 def gitUrl = 'https://github.com/Syex/Rode.git'
@@ -45,7 +45,7 @@ dependencies {
     }
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
     // Unit tests
     testImplementation "junit:junit:$junitVersion"
